@@ -1,0 +1,41 @@
+# steering_sim.py
+import streamlit as st
+import matplotlib.pyplot as plt
+import numpy as np
+
+st.title("Steer-by-Wire Angle Control Simulator 🚗")
+
+# Parameters
+st.sidebar.header("System Parameters")
+gear_ratio = st.sidebar.slider("Gear Reduction Ratio", 1, 20, 10)
+motor_rpm = st.sidebar.slider("Motor RPM", 50, 500, 200)
+Kp = st.sidebar.slider("Kp", 0.0, 10.0, 3.0)
+Ki = st.sidebar.slider("Ki", 0.0, 2.0, 0.5)
+Kd = st.sidebar.slider("Kd", 0.0, 2.0, 0.2)
+target = st.sidebar.slider("Target Angle (deg)", 0, 360, 180)
+
+# Simulation
+dt = 0.05
+time = np.arange(0, 5, dt)
+angle = [0]
+error_sum = 0
+prev_error = 0
+
+for t in time[1:]:
+    error = target - angle[-1]
+    error_sum += error * dt
+    d_error = (error - prev_error) / dt
+    pid = Kp * error + Ki * error_sum + Kd * d_error
+    delta = (motor_rpm / 60 * 360 / gear_ratio) * dt * np.sign(pid)
+    angle.append(angle[-1] + delta)
+    prev_error = error
+
+# Plot
+fig, ax = plt.subplots()
+ax.plot(time, angle, label="Steering Angle (°)")
+ax.axhline(y=target, color='r', linestyle='--', label="Target")
+ax.set_xlabel("Time (s)")
+ax.set_ylabel("Angle (°)")
+ax.legend()
+ax.grid(True)
+st.pyplot(fig)
