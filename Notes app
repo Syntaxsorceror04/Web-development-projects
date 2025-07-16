@@ -1,3 +1,4 @@
+JS Code
 // When you click "Add Note"
 document.getElementById("addBtn").addEventListener("click", function() {
     let addTxt = document.getElementById("addTxt");
@@ -56,6 +57,76 @@ darkBtn.addEventListener("click", function () {
         localStorage.setItem("mode", "light");
     }
 });
+
+
+CSS code
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.noteCard {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-left: 5px solid #4CAF50;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.noteCard button {
+    background-color: red;
+}
+.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+.dark-mode textarea {
+    background-color: #1e1e1e;
+    color: white;
+    border: 1px solid #444;
+}
+
+.dark-mode .noteCard {
+    background-color: #1f1f1f;
+    color: white;
+    border-left: 5px solid #bb86fc;
+}
+
+.dark-mode button {
+    background-color: #bb86fc;
+    color: black;
+}
+
+.dark-mode button:hover {
+    background-color: #9f6dfc;
+}
+
 
 // Apply mode on page load
 if (localStorage.getItem("mode") === "dark") {
