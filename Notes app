@@ -1,0 +1,63 @@
+// When you click "Add Note"
+document.getElementById("addBtn").addEventListener("click", function() {
+    let addTxt = document.getElementById("addTxt");
+    let notes = localStorage.getItem("notes");
+
+    let notesArr = notes ? JSON.parse(notes) : [];
+
+    notesArr.push(addTxt.value);
+    localStorage.setItem("notes", JSON.stringify(notesArr));
+
+    addTxt.value = "";
+    showNotes();
+});
+
+// Show all saved notes
+function showNotes() {
+    let notes = localStorage.getItem("notes");
+    let notesArr = notes ? JSON.parse(notes) : [];
+
+    let html = "";
+    notesArr.forEach(function(note, index) {
+        html += `
+            <div class="noteCard">
+                <p>${note}</p>
+                <button onclick="deleteNote(${index})">Delete</button>
+            </div>
+        `;
+    });
+
+    let notesElm = document.getElementById("notes");
+    notesElm.innerHTML = html;
+}
+
+// Delete a note
+function deleteNote(index) {
+    let notes = localStorage.getItem("notes");
+    let notesArr = JSON.parse(notes);
+
+    notesArr.splice(index, 1);
+    localStorage.setItem("notes", JSON.stringify(notesArr));
+
+    showNotes();
+}
+
+// Show notes when the page loads
+showNotes();
+// Toggle Dark Mode
+let darkBtn = document.getElementById("toggleDark");
+darkBtn.addEventListener("click", function () {
+    document.body.classList.toggle("dark-mode");
+
+    // Save dark mode preference
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("mode", "dark");
+    } else {
+        localStorage.setItem("mode", "light");
+    }
+});
+
+// Apply mode on page load
+if (localStorage.getItem("mode") === "dark") {
+    document.body.classList.add("dark-mode");
+}
